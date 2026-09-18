@@ -14,9 +14,6 @@ it does anything:
 ERROR: failed to build: failed to solve: base name ($BUILD_FROM) should not be blank
 ```
 
-All 52 forks of the upstream repository still have the same Dockerfile, so there was nothing to
-borrow.
-
 This fork names its base image explicitly and ships a pre-built image on GHCR. Home Assistant pulls
 that image instead of building one on your machine.
 
