@@ -89,6 +89,32 @@ docker run --rm --entrypoint sh "$IMAGE" -c 'command -v bashio > /dev/null' \
   || fail "bashio is missing; the image must use a Home Assistant base image"
 pass "run.sh is executable and bashio is present"
 
+echo "== Checking that s6 starts run.sh through bashio =="
+# A CRLF line ending in run.sh breaks the "#!/usr/bin/with-contenv bashio"
+# shebang, and s6 then fails with "unable to exec bashio". Running the real
+# entrypoint is the only way to catch that.
+OPTS_DIR="$(mktemp -d)"
+cat > "$OPTS_DIR/options.json" <<'JSONEOF'
+{"Inverter_host":"192.168.1.23","Inverter_port":502,"Inverter_model":"SG5K-D",
+ "Smart_meter":true,"Connection":"Sungrow","Scan_level":"DETAIL",
+ "Scan_interval":30,"Scan_timeout":5,"Log_level":"INFO"}
+JSONEOF
+ENTRYPOINT_LOG="$(docker run --rm -v "$OPTS_DIR:/data" "$IMAGE" 2>&1 || true)"
+rm -rf "$OPTS_DIR"
+case "$ENTRYPOINT_LOG" in
+  *"unable to exec bashio"*)
+    printf '%s
+' "$ENTRYPOINT_LOG" >&2
+    fail "s6 could not run run.sh; check that run.sh has LF line endings" ;;
+  *"No internal MQTT Broker found"*)
+    ;;
+  *)
+    printf '%s
+' "$ENTRYPOINT_LOG" >&2
+    fail "run.sh did not reach the MQTT broker check" ;;
+esac
+pass "s6 runs run.sh through bashio, and run.sh reaches the MQTT broker check"
+
 echo "== Checking the generated config and the MQTT discovery names =="
 docker run --rm --entrypoint sh "$IMAGE" -c '
 cd /tmp && python3 /config_generator.py \
