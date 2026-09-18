@@ -83,7 +83,6 @@ jobs:
           image-tags: |
             ${{ needs.init.outputs.version }}
             latest
-          load: "true"
           push: ${{ github.event_name != 'pull_request' }}
           skip-existing: ${{ github.event_name != 'pull_request' && needs.init.outputs.version || '' }}
           version: ${{ needs.init.outputs.version }}

@@ -32,7 +32,7 @@ app twice.
 
 ## What changed
 
-| | Upstream 0.3.9.1 | This fork 0.4.0 |
+| | Upstream 0.3.9.1 | This fork 0.4.1 |
 |---|---|---|
 | Base image | `$BUILD_FROM`, unset since Supervisor 2026.04.0 | `ghcr.io/home-assistant/base-python:3.12-alpine3.22` |
 | Install method | built on the Home Assistant host | pulled from `ghcr.io/bdog720/modbustcp2mqtt` |

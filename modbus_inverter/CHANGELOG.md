@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.0
+## 0.4.1
 
 Fork of MatterVN/ModbusTCP2MQTT, so the app installs on current Home Assistant again.
 
