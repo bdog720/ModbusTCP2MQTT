@@ -1,14 +1,12 @@
 name: ModbusTCP2MQTT
-version: "0.3.8"
+version: "0.4.0"
 slug: modbus_inverter
 description: Sungrow/SMA inverter Modbus communication
-url: "https://github.com/MatterVN/ModbusTCP2MQTT"
-arch: 
-  - armhf
-  - armv7
+url: "https://github.com/bdog720/ModbusTCP2MQTT"
+image: "ghcr.io/bdog720/modbustcp2mqtt"
+arch:
   - aarch64
   - amd64
-  - i386
 init: false
 startup: application
 boot: auto
