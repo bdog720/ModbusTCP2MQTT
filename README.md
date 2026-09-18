@@ -67,6 +67,18 @@ tests/smoke.sh modbus_inverter aarch64
 
 The same script runs in CI against both architectures.
 
+## Release
+
+The workflow publishes on every push to `main` that touches `modbus_inverter/`, `tests/` or the
+workflow itself.
+
+Bump `version:` in `modbus_inverter/config.yaml` for every release. The workflow passes
+`skip-existing: <version>`, so an existing tag is never re-pushed. Forget the bump and the build
+still goes green, but nothing reaches GHCR. The run logs a warning instead.
+
+The `image:` value in `config.yaml` must match what the workflow publishes. The `init` job checks
+this and fails the build if the two disagree.
+
 ---
 
 ## Upstream reference
